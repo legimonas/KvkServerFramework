@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+
+    <context:component-scan base-package="org.kvk.server"/>
+    <context:annotation-config/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="password" value="12Ad23Sf34Dg"/>
+        <property name="username" value="legimonas"/>
+        <property name="url" value="jdbc:mysql://localhost:3307/userrepositorydb?serverTimezone=UTC"/>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+    </bean>
+    <bean name="jpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="database" value="MYSQL"/>
+    </bean>
+
+    <bean id="hibernateSessionFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="javax.persistence.schema-generation.database.action">none</prop>
+            </props>
+        </property>
+        <property name="jpaVendorAdapter" ref="jpaAdapter"/>
+        <property name="packagesToScan" value="org"/>
+    </bean>
+    <bean class="org.kvk.server.сfg.KvkSessionFactory">
+        <property name="packageWithAnnotatedClasses" value="org.kvk.server.classes"/>
+    </bean>
+    <bean id="config" class="org.hibernate.cfg.Configuration">
+
+        <property name="properties">
+            <props>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3307/userrepositorydb?useUnicode=true&amp;serverTimezone=UTC</prop>
+                <prop key="hibernate.connection.username">legimonas</prop>
+                <prop key="hibernate.connection.password">12Ad23Sf34Dg</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="hibernateSessionFactory"/>
+    </bean>
+    <mvc:annotation-driven/>
+
+    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+
+
+    <bean id="saveController" class="org.kvk.server.controllers.SaveController">
+        <property name="urlPattern" value="/save"/>
+        <property name="requestMethod" value="GET"/>
+        <property name="entityClass" ref="ent1"/>
+    </bean>
+
+    <bean id="ent1" class="org.kvk.server.javassist.EntityClass">
+        <property name="tableAnnotationInfo">
+            <bean class="org.kvk.server.javassist.TableAnnotationInfo">
+                <property name="name" value="users"/>
+            </bean>
+        </property>
+        <property name="entityAnnotationInfo">
+            <bean class="org.kvk.server.javassist.EntityAnnotationInfo"/>
+        </property>
+        <property name="className" value="org.kvk.server.models.User"/>
+
+        <property name="membersInfo">
+            <bean class="java.util.ArrayList">
+                <constructor-arg>
+                    <list>
+                        <bean id="idField" class="org.kvk.server.javassist.FieldInfo">
+
+                            <constructor-arg index="0" value="java.lang.Integer"/>
+                            <constructor-arg index="1" value="id"/>
+                            <constructor-arg index="2">
+                                <list>
+                                    <bean class="org.kvk.server.javassist.AnnotationInfo" factory-method="of">
+                                        <constructor-arg index="0" value="javax.persistence.Id"/>
+                                    </bean>
+                                    <bean class="org.kvk.server.javassist.AnnotationInfo" factory-method="of">
+                                        <constructor-arg index="0" value="javax.persistence.GeneratedValue"/>
+                                    </bean>
+                                </list>
+                            </constructor-arg>
+                        </bean>
+                        <bean id="nameField" class="org.kvk.server.javassist.FieldInfo">
+                            <constructor-arg index="0" value="java.lang.String"/>
+                            <constructor-arg index="1" value="name"/>
+                            <constructor-arg index="2">
+                                <list>
+                                    <bean class="org.kvk.server.javassist.AnnotationInfo" factory-method="of">
+                                        <constructor-arg index="0" value="javax.persistence.Column"/>
+                                        <constructor-arg index="1">
+                                            <props>
+                                                <prop key="name">name</prop>
+                                                <prop key="length">
+                                                    30
+                                                </prop>
+                                            </props>
+                                        </constructor-arg>
+                                    </bean>
+                                </list>
+                            </constructor-arg>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+<!--    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">-->
+<!--        <property name="mappings">-->
+<!--            <props>-->
+<!--                <prop key="/conta/{a}">controllerA</prop>-->
+<!--                <prop key="/contb">controllerB</prop>-->
+<!--            </props>-->
+<!--        </property>-->
+<!--    </bean>-->
+<!--    <bean id="controllerA" class="org.kvk.server.controllers.SaveController">-->
+
+<!--    </bean>-->
+<!--    <bean id="controllerB" class="org.kvk.server.controllers.SaveController">-->
+
+<!--    </bean>-->
+    <mvc:annotation-driven/>
+</beans>
