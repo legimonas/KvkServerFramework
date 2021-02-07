@@ -1,17 +1,15 @@
 package org.kvk.server.сfg;
 
+import com.kvk.config.javassist.*;
+import com.kvk.config.javassist.builders.ByteCodeBuilder;
 import javassist.CannotCompileException;
-import javassist.ClassPool;
-import javassist.CtClass;
+import javassist.NotFoundException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.kvk.server.classes.User;
-import org.kvk.server.javassist.*;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +29,7 @@ public class KvkSessionFactory {
     @Autowired
     private ApplicationContext applicationContext;
 
-    public Class<?> createAnnotatedClass() throws CannotCompileException, IOException, ClassNotFoundException, URISyntaxException {
+    public Class<?> createAnnotatedClass() throws CannotCompileException, IOException, ClassNotFoundException, URISyntaxException, NotFoundException {
         TableAnnotationInfo tableAnnotationInfo = TableAnnotationInfo.builder().name("users").build();
         EntityAnnotationInfo entityAnnotationInfo = new EntityAnnotationInfo();
 
@@ -50,23 +48,22 @@ public class KvkSessionFactory {
                 fields
         );
         String className = "org.kvk.server.models.User";
-        CtClass ctClass = entityClass.createEntityByteCode(ClassPool.getDefault(), className);
+        entityClass.setClassName(className);
         System.out.println(new File(".").getAbsolutePath());
 
         URI uri = new URI(Objects.requireNonNull(getClass().getClassLoader().getResource("")).getPath());
         String rootDir = uri.getPath();
         System.out.println(rootDir);
-        ctClass.writeFile(rootDir.substring(1, rootDir.length()-1));
+        ByteCodeBuilder.create().buildCode(entityClass, rootDir.substring(1, rootDir.length()-1));
         return Class.forName(className);
     }
-    public Class<?> createAnnotatedClass(EntityClass entityClass) throws CannotCompileException, URISyntaxException, IOException, ClassNotFoundException {
-        CtClass ctClass = entityClass.createEntityByteCode(ClassPool.getDefault());
+    public Class<?> createAnnotatedClass(EntityClass entityClass) throws CannotCompileException, URISyntaxException, IOException, ClassNotFoundException, NotFoundException {
         URI uri = new URI(Objects.requireNonNull(getClass().getClassLoader().getResource("")).getPath());
         String rootDir = uri.getPath();
-        ctClass.writeFile(rootDir.substring(1, rootDir.length()-1));
+        ByteCodeBuilder.create().buildCode(entityClass, rootDir.substring(1, rootDir.length()-1));
         return Class.forName(entityClass.getClassName());
     }
-    public void setPackageWithAnnotatedClasses(String packageName) throws ClassNotFoundException, IOException, CannotCompileException, URISyntaxException {
+    public void setPackageWithAnnotatedClasses(String packageName) throws ClassNotFoundException, IOException, CannotCompileException, URISyntaxException, NotFoundException {
         Reflections reflections = new Reflections(packageName);
         Set<Class<?>> annotatedClasses = reflections.getTypesAnnotatedWith(Entity.class);
         for(Class<?> clazz: annotatedClasses){
@@ -77,6 +74,7 @@ public class KvkSessionFactory {
             Class annotatedClass = createAnnotatedClass(bean.getValue());
             configuration.addAnnotatedClass(annotatedClass);
         }
+
 
         sessionFactory = configuration.buildSessionFactory();
     }

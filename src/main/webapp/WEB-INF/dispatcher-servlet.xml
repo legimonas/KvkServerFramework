@@ -65,14 +65,14 @@
         <property name="entityClass" ref="ent1"/>
     </bean>
 
-    <bean id="ent1" class="org.kvk.server.javassist.EntityClass">
+    <bean id="ent1" class="com.kvk.config.javassist.EntityClass">
         <property name="tableAnnotationInfo">
-            <bean class="org.kvk.server.javassist.TableAnnotationInfo">
+            <bean class="com.kvk.config.javassist.TableAnnotationInfo">
                 <property name="name" value="users"/>
             </bean>
         </property>
         <property name="entityAnnotationInfo">
-            <bean class="org.kvk.server.javassist.EntityAnnotationInfo"/>
+            <bean class="com.kvk.config.javassist.EntityAnnotationInfo"/>
         </property>
         <property name="className" value="org.kvk.server.models.User"/>
 
@@ -80,35 +80,33 @@
             <bean class="java.util.ArrayList">
                 <constructor-arg>
                     <list>
-                        <bean id="idField" class="org.kvk.server.javassist.FieldInfo">
+                        <bean id="idField" class="com.kvk.config.javassist.FieldInfo">
 
                             <constructor-arg index="0" value="java.lang.Integer"/>
                             <constructor-arg index="1" value="id"/>
                             <constructor-arg index="2">
                                 <list>
-                                    <bean class="org.kvk.server.javassist.AnnotationInfo" factory-method="of">
+                                    <bean class="com.kvk.config.javassist.AnnotationInfo" factory-method="of">
                                         <constructor-arg index="0" value="javax.persistence.Id"/>
                                     </bean>
-                                    <bean class="org.kvk.server.javassist.AnnotationInfo" factory-method="of">
+                                    <bean class="com.kvk.config.javassist.AnnotationInfo" factory-method="of">
                                         <constructor-arg index="0" value="javax.persistence.GeneratedValue"/>
                                     </bean>
                                 </list>
                             </constructor-arg>
                         </bean>
-                        <bean id="nameField" class="org.kvk.server.javassist.FieldInfo">
+                        <bean id="nameField" class="com.kvk.config.javassist.FieldInfo">
                             <constructor-arg index="0" value="java.lang.String"/>
                             <constructor-arg index="1" value="name"/>
                             <constructor-arg index="2">
                                 <list>
-                                    <bean class="org.kvk.server.javassist.AnnotationInfo" factory-method="of">
+                                    <bean class="com.kvk.config.javassist.AnnotationInfo" factory-method="of">
                                         <constructor-arg index="0" value="javax.persistence.Column"/>
                                         <constructor-arg index="1">
-                                            <props>
-                                                <prop key="name">name</prop>
-                                                <prop key="length">
-                                                    30
-                                                </prop>
-                                            </props>
+                                            <map>
+                                                <entry key="name" value="name"/>
+                                                <entry key="length" value-type="java.lang.Integer" value="30"/>
+                                            </map>
                                         </constructor-arg>
                                     </bean>
                                 </list>
@@ -119,7 +117,6 @@
             </bean>
         </property>
     </bean>
-
 <!--    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">-->
 <!--        <property name="mappings">-->
 <!--            <props>-->

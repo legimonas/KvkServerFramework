@@ -1,11 +1,11 @@
 package org.kvk.server.controllers;
 
+import com.kvk.config.javassist.EntityClass;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.kvk.server.classes.User;
 import org.kvk.server.classes.UserForm;
-import org.kvk.server.javassist.EntityClass;
 import org.kvk.server.сfg.KvkSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
