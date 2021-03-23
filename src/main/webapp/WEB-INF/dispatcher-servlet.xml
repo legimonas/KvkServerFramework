@@ -7,7 +7,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
-
     <context:component-scan base-package="org.kvk.server"/>
     <context:annotation-config/>
 
@@ -56,80 +55,86 @@
     </bean>
     <mvc:annotation-driven/>
 
-    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <bean id="handlerMapping"
+          class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
 
 
-    <bean id="saveController" class="org.kvk.server.controllers.SaveController">
-        <property name="urlPattern" value="/save"/>
-        <property name="requestMethod" value="GET"/>
-        <property name="entityClass" ref="ent1"/>
+<!--    <bean id="saveController" class="org.kvk.server.controllers.SaveController">-->
+<!--        <property name="urlPattern" value="/save"/>-->
+<!--        <property name="requestMethod" value="GET"/>-->
+<!--        <property name="className" value="org.kvk..."/>-->
+<!--    </bean>-->
+
+    <bean id="entity-config-location" class="java.lang.String">
+        <constructor-arg value="/WEB-INF/entities.xml"/>
     </bean>
 
-    <bean id="ent1" class="com.kvk.config.javassist.EntityClass">
-        <property name="tableAnnotationInfo">
-            <bean class="com.kvk.config.javassist.TableAnnotationInfo">
-                <property name="name" value="users"/>
-            </bean>
-        </property>
-        <property name="entityAnnotationInfo">
-            <bean class="com.kvk.config.javassist.EntityAnnotationInfo"/>
-        </property>
-        <property name="className" value="org.kvk.server.models.User"/>
+<!--    <bean id="ent1" class="com.kvk.config.javassist.EntityClass">-->
+<!--        <property name="tableAnnotationInfo">-->
+<!--            <bean class="com.kvk.config.javassist.TableAnnotationInfo">-->
+<!--                <property name="name" value="users"/>-->
+<!--            </bean>-->
+<!--        </property>-->
+<!--        <property name="entityAnnotationInfo">-->
+<!--            <bean class="com.kvk.config.javassist.EntityAnnotationInfo"/>-->
+<!--        </property>-->
+<!--        <property name="className" value="org.kvk.server.models.User"/>-->
 
-        <property name="membersInfo">
-            <bean class="java.util.ArrayList">
-                <constructor-arg>
-                    <list>
-                        <bean id="idField" class="com.kvk.config.javassist.FieldInfo">
+<!--        <property name="membersInfo">-->
+<!--            <bean class="java.util.ArrayList">-->
+<!--                <constructor-arg>-->
+<!--                    <list>-->
+<!--                        <bean id="idField" class="com.kvk.config.javassist.FieldInfo">-->
 
-                            <constructor-arg index="0" value="java.lang.Integer"/>
-                            <constructor-arg index="1" value="id"/>
-                            <constructor-arg index="2">
-                                <list>
-                                    <bean class="com.kvk.config.javassist.AnnotationInfo" factory-method="of">
-                                        <constructor-arg index="0" value="javax.persistence.Id"/>
-                                    </bean>
-                                    <bean class="com.kvk.config.javassist.AnnotationInfo" factory-method="of">
-                                        <constructor-arg index="0" value="javax.persistence.GeneratedValue"/>
-                                    </bean>
-                                </list>
-                            </constructor-arg>
-                        </bean>
-                        <bean id="nameField" class="com.kvk.config.javassist.FieldInfo">
-                            <constructor-arg index="0" value="java.lang.String"/>
-                            <constructor-arg index="1" value="name"/>
-                            <constructor-arg index="2">
-                                <list>
-                                    <bean class="com.kvk.config.javassist.AnnotationInfo" factory-method="of">
-                                        <constructor-arg index="0" value="javax.persistence.Column"/>
-                                        <constructor-arg index="1">
-                                            <map>
-                                                <entry key="name" value="name"/>
-                                                <entry key="length" value-type="java.lang.Integer" value="30"/>
-                                            </map>
-                                        </constructor-arg>
-                                    </bean>
-                                </list>
-                            </constructor-arg>
-                        </bean>
-                    </list>
-                </constructor-arg>
-            </bean>
-        </property>
-    </bean>
-<!--    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">-->
-<!--        <property name="mappings">-->
-<!--            <props>-->
-<!--                <prop key="/conta/{a}">controllerA</prop>-->
-<!--                <prop key="/contb">controllerB</prop>-->
-<!--            </props>-->
+<!--                            <constructor-arg index="0" value="java.lang.Integer"/>-->
+<!--                            <constructor-arg index="1" value="id"/>-->
+<!--                            <constructor-arg index="2">-->
+<!--                                <list>-->
+<!--                                    <bean class="com.kvk.config.javassist.AnnotationInfo" factory-method="of">-->
+<!--                                        <constructor-arg index="0" value="javax.persistence.Id"/>-->
+<!--                                    </bean>-->
+<!--                                    <bean class="com.kvk.config.javassist.AnnotationInfo" factory-method="of">-->
+<!--                                        <constructor-arg index="0" value="javax.persistence.GeneratedValue"/>-->
+<!--                                    </bean>-->
+<!--                                </list>-->
+<!--                            </constructor-arg>-->
+<!--                        </bean>-->
+<!--                        <bean id="nameField" class="com.kvk.config.javassist.FieldInfo">-->
+<!--                            <constructor-arg index="0" value="java.lang.String"/>-->
+<!--                            <constructor-arg index="1" value="name"/>-->
+<!--                            <constructor-arg index="2">-->
+<!--                                <list>-->
+<!--                                    <bean class="com.kvk.config.javassist.AnnotationInfo" factory-method="of">-->
+<!--                                        <constructor-arg index="0" value="javax.persistence.Column"/>-->
+<!--                                        <constructor-arg index="1">-->
+<!--                                            <map>-->
+<!--                                                <entry key="name" value="name"/>-->
+<!--                                                <entry key="length" value-type="-->
+<!--                                                 java.lang.Integer" value="30"/>-->
+<!--                                            </map>-->
+<!--                                        </constructor-arg>-->
+<!--                                    </bean>-->
+<!--                                </list>-->
+<!--                            </constructor-arg>-->
+<!--                        </bean>-->
+<!--                    </list>-->
+<!--                </constructor-arg>-->
+<!--            </bean>-->
 <!--        </property>-->
 <!--    </bean>-->
-<!--    <bean id="controllerA" class="org.kvk.server.controllers.SaveController">-->
+    <!--    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">-->
+    <!--        <property name="mappings">-->
+    <!--            <props>-->
+    <!--                <prop key="/conta/{a}">controllerA</prop>-->
+    <!--                <prop key="/contb">controllerB</prop>-->
+    <!--            </props>-->
+    <!--        </property>-->
+    <!--    </bean>-->
+    <!--    <bean id="controllerA" class="org.kvk.server.controllers.SaveController">-->
 
-<!--    </bean>-->
-<!--    <bean id="controllerB" class="org.kvk.server.controllers.SaveController">-->
+    <!--    </bean>-->
+    <!--    <bean id="controllerB" class="org.kvk.server.controllers.SaveController">-->
 
-<!--    </bean>-->
+    <!--    </bean>-->
     <mvc:annotation-driven/>
 </beans>

@@ -39,6 +39,7 @@ public class SaveController extends FrameworkController{
     }
     public void setEntityClass(EntityClass entityClass) throws ClassNotFoundException {
         clazz = Class.forName(entityClass.getClassName());
+
     }
 
     @PostConstruct

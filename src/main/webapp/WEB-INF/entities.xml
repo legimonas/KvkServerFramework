@@ -1,0 +1,18 @@
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/legimonas/KvkConfigLib/development/src/main/resources/config.xsd">
+<!--<entities>-->
+    <entity class-name="org.kvk.server.classes.MyUser">
+        <table name="users"/>
+        <members>
+            <member type="field" class="java.lang.Integer" name="id">
+                <id/>
+                <generated-type/>
+            </member>
+            <member type="field" class="java.lang.String" name="firstname">
+                <column name="firstName"/>
+            </member>
+            <member type="field" class="java.lang.String" name="lastname">
+                <column name="lastName"/>
+            </member>
+        </members>
+    </entity>
+</entities>

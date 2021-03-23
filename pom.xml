@@ -9,41 +9,6 @@
     <version>0.1</version>
     <packaging>war</packaging>
 
-
-    <distributionManagement>
-        <repository>
-            <id>internal</id>
-            <url>http://localhost:8587/repository/internal/</url>
-        </repository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>internal</id>
-            <name>Archiva Managed Internal Repository</name>
-            <url>http://localhost:8587/repository/internal/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>internal</id>
-            <name>Archiva Managed Internal Repository</name>
-            <url>http://localhost:8587/repository/internal/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
     <dependencies>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -87,11 +52,7 @@
             <version>2.1.9.RELEASE</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.kvk.config</groupId>
-            <artifactId>KvkConfig</artifactId>
-            <version>LATEST</version>
-        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
